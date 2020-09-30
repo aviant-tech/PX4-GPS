@@ -136,6 +136,7 @@ px4_add_romfs_files(
 	13014_vtol_babyshark
 	13050_generic_vtol_octo
 	13200_generic_vtol_tailsitter
+	13111_vtol_aviant_prototype_1
 
 	# [14000, 14999] Tri Y
 	14001_tri_y_yaw+
