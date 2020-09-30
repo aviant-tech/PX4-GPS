@@ -1,0 +1,23 @@
+Aviant mixer for motor outputs on AUX ports to enable D-shot
+=====================
+
+Multirotor outputs
+R: 4x
+
+Back motor speed mixer
+-----------------
+Two scalers total (output, thrust).
+
+This mixer generates a full-range output (-1 to 1) from an input in the (0 - 1)
+range.  Inputs below zero are treated as zero.
+
+M: 1
+S: 1 3      0  20000 -10000 -10000  10000
+
+TODO is this even needed?
+Reverse thrust (brake) mixer
+-----------------
+
+M: 1
+S: 1 6      0  20000 -10000 -10000  10000
+

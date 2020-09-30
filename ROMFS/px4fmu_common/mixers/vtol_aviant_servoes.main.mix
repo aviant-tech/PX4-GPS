@@ -1,0 +1,32 @@
+Aviant mixer for servo outputs on MAIN ports
+=====================
+
+This file defines mixers suitable for controlling a delta wing VTOL aircraft using
+PX4FMU. The configuration assumes the elevon servos are connected to PX4FMU
+AUX servo outputs 0 and 1
+
+Inputs to the mixer come from channel group 0 (vehicle attitude), channels 0
+(roll), 1 (pitch)
+
+Elevon mixers
+-------------
+Three scalers total (output, roll, pitch).
+
+On the assumption that the two elevon servos are physically reversed, the pitch
+input is inverted between the two servos.
+
+M: 2
+S: 1 0   8000   8000      0 -10000  10000
+S: 1 1   8000   8000      0 -10000  10000
+
+M: 2
+S: 1 0   8000   8000      0 -10000  10000
+S: 1 1  -8000  -8000      0 -10000  10000
+
+The rest of the outputs are 0
+Z:
+Z:
+Z:
+Z:
+Z:
+Z:
