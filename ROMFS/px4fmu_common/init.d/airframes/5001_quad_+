@@ -23,7 +23,7 @@
 # @board bitcraze_crazyflie exclude
 #
 
-. /etc/init.d/rc.mc_defaults
+sh /etc/init.d/rc.mc_defaults
 
 set MIXER quad_+
 
