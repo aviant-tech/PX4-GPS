@@ -1,0 +1,74 @@
+#!/bin/sh
+#
+# @name Aviant prototype VTOL
+#
+# @type Standard VTOL
+# @class VTOL
+#
+# @maintainer Bernhard Paus Graesdal <bernhard@aviant.no>
+#
+# @output MAIN1 Right elevon
+# @output MAIN2 Left elevon
+# @output AUX1 motor 1
+# @output AUX2 motor 2
+# @output AUX3 motor 3
+# @output AUX4 motor 4
+# @output AUX5 back motor
+# @output AUX6 back motor brake
+#
+# @board intel_aerofc-v1 exclude
+# @board bitcraze_crazyflie exclude
+#
+
+. /etc/init.d/rc.vtol_defaults
+
+if [ $AUTOCNF = yes ]
+then
+	param set MC_ROLL_P 6.5
+	param set MC_ROLLRATE_P 0.15
+	param set MC_ROLLRATE_I 0.01
+	param set MC_ROLLRATE_D 0.003
+	param set MC_ROLLRATE_FF 0
+	param set MC_PITCH_P 6.5
+	param set MC_PITCHRATE_P 0.15
+	param set MC_PITCHRATE_I 0.01
+	param set MC_PITCHRATE_D 0.003
+	param set MC_PITCHRATE_FF 0
+	param set MC_YAW_P 3.5
+	param set MC_YAWRATE_P 0.2
+	param set MC_YAWRATE_I 0.1
+	param set MC_YAWRATE_D 0
+	param set MC_YAWRATE_FF 0
+	param set MC_YAWRATE_MAX 50
+
+	param set MPC_XY_P 0.8
+	param set MPC_XY_VEL_P_ACC 2
+	param set MPC_ACC_HOR_MAX 2
+	param set MPC_YAWRAUTO_MAX 20
+
+	param set PWM_AUX_DIS3 950
+	param set PWM_RATE 400
+
+	param set VT_MOT_ID 1234
+	param set VT_FW_MOT_OFFID 1234
+	param set VT_F_TRANS_THR 0.75
+	param set VT_IDLE_PWM_MC 1080
+	param set VT_TYPE 2
+
+	param set DSHOT_CONFIG 150
+	param set TEL_FRSKY_CONFIG 102
+	param set TEL_FRSKY_CONFIG 102
+
+	param set RC_MAP_TRANS_SW 6
+	param set RC_MAP_ARM_SW 5
+	param set RC_MAP_KILL_SW 7
+	param set RC_MAP_MODE_SW 8
+
+fi
+
+param set SYS_HITL 1
+
+set MAV_TYPE 22
+
+set MIXER standard_vtol_hitl
+set PWM_OUT 1234
