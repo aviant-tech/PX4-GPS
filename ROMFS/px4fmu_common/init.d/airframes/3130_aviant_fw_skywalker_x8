@@ -1,0 +1,57 @@
+#!/bin/sh
+#
+# @name Aviant FW Skywalker X8
+#
+# @type Flying Wing
+# @class Plane
+#
+# @output MAIN1 left aileron
+# @output MAIN2 right aileron
+# @output MAIN4 throttle
+#
+# @output AUX1 feed-through of RC AUX1 channel
+# @output AUX2 feed-through of RC AUX2 channel
+# @output AUX3 feed-through of RC AUX3 channel
+#
+# @maintainer Bernhard Paus Graesdal <bernhard@aviant.no>
+# 
+# @board intel_aerofc-v1 exclude
+# @board bitcraze_crazyflie exclude
+#
+
+. /etc/init.d/rc.fw_defaults
+
+if [ $AUTOCNF = yes ]
+then
+	param set FW_AIRSPD_MIN 14
+	param set FW_AIRSPD_TRIM 17
+	param set FW_AIRSPD_MAX 20
+	param set FW_THR_MIN 0.45
+
+	param set FW_L1_PERIOD 25
+	param set FW_P_TC 0.5
+	param set FW_PSP_OFF 5
+	param set FW_R_LIM 35
+	param set FW_RR_I 0.08
+	param set FW_T_HRATE_FF 0.5
+	param set FW_T_CLMB_MAX 3
+	param set FW_T_SINK_MAX 3
+	param set FW_T_SINK_MIN 1
+	param set FW_T_VERT_ACC 6
+	param set FW_THR_CRUISE 0.7
+	param set FW_THR_SLEW_MAX 0.3
+	param set FW_T_RLL2THR 20
+
+	param set FW_MAN_P_MAX 30
+	param set FW_P_LIM_MAX 15
+	param set FW_P_LIM_MIN -25
+	param set FW_P_RMAX_NEG 45
+	param set FW_P_RMAX_POS 45
+	param set FW_R_RMAX 50
+
+	param set NAV_LOITER_RAD 100
+
+	param set EKF2_ARSP_THR 11
+fi
+
+set MIXER fw_generic_wing
