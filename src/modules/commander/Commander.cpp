@@ -3773,19 +3773,27 @@ void Commander::data_link_check()
 
 					// Initial connection or recovery from data link lost
 					if (status.data_link_lost) {
-						if (hb.timestamp > _datalink_last_heartbeat_gcs) {
-							status.data_link_lost = false;
-							_status_changed = true;
+						if (hb.timestamp > _datalink_last_heartbeat_gcs)  {
+							// Only allow datalink to be regained if the UAV is not currently landing
+							if (status.nav_state != vehicle_status_s::NAVIGATION_STATE_AUTO_LAND) {
+								status.data_link_lost = false;
+								_status_changed = true;
 
-							if (!armed.armed && !status_flags.condition_calibration_enabled) {
-								// make sure to report preflight check failures to a connecting GCS
-								PreFlightCheck::preflightCheck(&mavlink_log_pub, status, status_flags,
-											       _arm_requirements.global_position, true, true, hrt_elapsed_time(&_boot_timestamp));
+								if (!armed.armed && !status_flags.condition_calibration_enabled) {
+									// make sure to report preflight check failures to a connecting GCS
+									PreFlightCheck::preflightCheck(&mavlink_log_pub, status, status_flags,
+												_arm_requirements.global_position, true, true, hrt_elapsed_time(&_boot_timestamp));
+								}
+
+								if (_datalink_last_heartbeat_gcs != 0) {
+									mavlink_log_info(&mavlink_log_pub, "Data link regained");
+								}
+							}
+							else
+							{
+								mavlink_log_info(&mavlink_log_pub, "Data link regained disregarded, as the vehicle is currently in Land mode");
 							}
 
-							if (_datalink_last_heartbeat_gcs != 0) {
-								mavlink_log_info(&mavlink_log_pub, "Data link regained");
-							}
 						}
 					}
 
