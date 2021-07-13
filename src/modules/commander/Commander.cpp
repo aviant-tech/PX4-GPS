@@ -3774,8 +3774,9 @@ void Commander::data_link_check()
 					// Initial connection or recovery from data link lost
 					if (status.data_link_lost) {
 						if (hb.timestamp > _datalink_last_heartbeat_gcs)  {
-							// Only allow datalink to be regained if the UAV is not currently landing
-							if (status.nav_state != vehicle_status_s::NAVIGATION_STATE_AUTO_LAND) {
+							// Only allow datalink to be regained if the UAV is not currently landing or in RTL mode
+							if ((status.nav_state != vehicle_status_s::NAVIGATION_STATE_AUTO_LAND)
+									&& (status.nav_state != vehicle_status_s::NAVIGATION_STATE_AUTO_RTL)){
 								status.data_link_lost = false;
 								_status_changed = true;
 
