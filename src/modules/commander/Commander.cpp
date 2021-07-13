@@ -3790,9 +3790,10 @@ void Commander::data_link_check()
 									mavlink_log_info(&mavlink_log_pub, "Data link regained");
 								}
 							}
-							else
+							else if (!_notified_datalink_regained_disregarded)
 							{
-								mavlink_log_info(&mavlink_log_pub, "Data link regained disregarded, as the vehicle is currently in Land mode");
+								mavlink_log_info(&mavlink_log_pub, "Data link regained disregarded, as the vehicle is currently in Land or RTL mode.");
+								_notified_datalink_regained_disregarded = true;
 							}
 
 						}

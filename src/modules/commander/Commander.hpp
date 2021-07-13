@@ -322,6 +322,7 @@ private:
 	bool		_avoidance_system_lost{false};
 	bool		_avoidance_system_status_change{false};
 	uint8_t		_datalink_last_status_avoidance_system{telemetry_heartbeat_s::STATE_UNINIT};
+	bool		_notified_datalink_regained_disregarded{false};
 
 	hrt_abstime	_high_latency_datalink_heartbeat{0};
 	hrt_abstime	_high_latency_datalink_lost{0};
