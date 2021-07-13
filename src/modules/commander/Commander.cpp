@@ -2344,6 +2344,8 @@ Commander::run()
 
 		_was_armed = armed.armed;
 
+		// Stay in failsafe if we are in failsafe due to datalink loss (this will enable user overrides)
+		bool stay_in_failsafe = _mission_result_sub.get().stay_in_failsafe || _datalink_regained_while_failsafe;
 		/* now set navigation state according to failsafe and main state */
 		bool nav_state_changed = set_nav_state(&status,
 						       &armed,
@@ -2351,7 +2353,7 @@ Commander::run()
 						       &mavlink_log_pub,
 						       (link_loss_actions_t)_param_nav_dll_act.get(),
 						       _mission_result_sub.get().finished,
-						       _mission_result_sub.get().stay_in_failsafe,
+						       stay_in_failsafe,
 						       status_flags,
 						       _land_detector.landed,
 						       (link_loss_actions_t)_param_nav_rcl_act.get(),
@@ -3774,26 +3776,24 @@ void Commander::data_link_check()
 					// Initial connection or recovery from data link lost
 					if (status.data_link_lost) {
 						if (hb.timestamp > _datalink_last_heartbeat_gcs)  {
-							// Only allow datalink to be regained if the UAV is not currently landing or in RTL mode
-							if ((status.nav_state != vehicle_status_s::NAVIGATION_STATE_AUTO_LAND)
-									&& (status.nav_state != vehicle_status_s::NAVIGATION_STATE_AUTO_RTL)){
-								status.data_link_lost = false;
-								_status_changed = true;
+							status.data_link_lost = false;
+							_status_changed = true;
 
-								if (!armed.armed && !status_flags.condition_calibration_enabled) {
-									// make sure to report preflight check failures to a connecting GCS
-									PreFlightCheck::preflightCheck(&mavlink_log_pub, status, status_flags,
-												_arm_requirements.global_position, true, true, hrt_elapsed_time(&_boot_timestamp));
-								}
-
-								if (_datalink_last_heartbeat_gcs != 0) {
-									mavlink_log_info(&mavlink_log_pub, "Data link regained");
-								}
+							if (!armed.armed && !status_flags.condition_calibration_enabled) {
+								// make sure to report preflight check failures to a connecting GCS
+								PreFlightCheck::preflightCheck(&mavlink_log_pub, status, status_flags,
+											_arm_requirements.global_position, true, true, hrt_elapsed_time(&_boot_timestamp));
 							}
-							else if (!_notified_datalink_regained_disregarded)
-							{
-								mavlink_log_info(&mavlink_log_pub, "Data link regained disregarded, as the vehicle is currently in Land or RTL mode.");
-								_notified_datalink_regained_disregarded = true;
+
+							// Remember if we regained datalink while in a failsafe (LAND or RTL) mode
+							_datalink_regained_while_failsafe = status.nav_state == vehicle_status_s::NAVIGATION_STATE_AUTO_LAND
+												|| status.nav_state == vehicle_status_s::NAVIGATION_STATE_AUTO_RTL;
+
+							if (_datalink_regained_while_failsafe) {
+								mavlink_log_info(&mavlink_log_pub, "Datalink regained, staying in failsafe mode.");
+							}
+							else if (_datalink_last_heartbeat_gcs != 0) {
+								mavlink_log_info(&mavlink_log_pub, "Data link regained");
 							}
 
 						}
