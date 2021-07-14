@@ -786,12 +786,14 @@ void set_link_loss_nav_state(vehicle_status_s *status, actuator_armed_s *armed,
 	// FALLTHROUGH
 	case link_loss_actions_t::AUTO_LOITER:
 		if (status_flags.condition_global_position_valid) {
+			main_state_transition(*status, commander_state_s::MAIN_STATE_AUTO_LOITER, status_flags, internal_state);
 			status->nav_state = vehicle_status_s::NAVIGATION_STATE_AUTO_LOITER;
 			return;
 		}
 
 	// FALLTHROUGH
 	case link_loss_actions_t::AUTO_LAND:
+		main_state_transition(*status, commander_state_s::MAIN_STATE_AUTO_LAND, status_flags, internal_state);
 		if (status_flags.condition_global_position_valid) {
 			status->nav_state = vehicle_status_s::NAVIGATION_STATE_AUTO_LAND;
 			return;
@@ -813,7 +815,7 @@ void set_link_loss_nav_state(vehicle_status_s *status, actuator_armed_s *armed,
 				return;
 			}
 		}
-
+	// Aviant comment: This fallthrough is unreachable...
 	// FALLTHROUGH
 	case link_loss_actions_t::TERMINATE:
 		status->nav_state = vehicle_status_s::NAVIGATION_STATE_TERMINATION;
