@@ -63,6 +63,9 @@ BATT_SMBUS::BATT_SMBUS(I2CSPIBusOption bus_option, const int bus, SMBus *interfa
 	if ((SMBUS_DEVICE_TYPE)batt_device_type == SMBUS_DEVICE_TYPE::BQ40Z80) {
 		_device_type = SMBUS_DEVICE_TYPE::BQ40Z80;
 
+	} else if ((SMBUS_DEVICE_TYPE)batt_device_type == SMBUS_DEVICE_TYPE::BQ78350) {
+		_device_type = SMBUS_DEVICE_TYPE::BQ78350;
+
 	} else {
 		//default
 		_device_type = SMBUS_DEVICE_TYPE::BQ40Z50;
@@ -261,6 +264,14 @@ int BATT_SMBUS::get_cell_voltages()
 		_cell_voltages[4] = ((float)((DAstatus3[1] << 8) | DAstatus3[0]) / 1000.0f);
 		_cell_voltages[5] = ((float)((DAstatus3[7] << 8) | DAstatus3[6]) / 1000.0f);
 		_cell_voltages[6] = ((float)((DAstatus3[13] << 8) | DAstatus3[12]) / 1000.0f);
+
+	} else if (_device_type == SMBUS_DEVICE_TYPE::BQ78350) {
+		int cell_1_addr = BATT_SMBUS_BQ40Z50_CELL_1_VOLTAGE;
+		for (int i=0; i < _cell_count; i++){
+			ret |= _interface->read_word(cell_1_addr - i, result);
+			// Convert millivolts to volts.
+			_cell_voltages[i] = ((float)result) / 1000.0f;
+		}
 
 	}
 
