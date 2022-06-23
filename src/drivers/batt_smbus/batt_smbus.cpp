@@ -35,7 +35,7 @@
  * @file batt_smbus.h
  *
  * Header for a battery monitor connected via SMBus (I2C).
- * Designed for BQ40Z50-R1/R2 and BQ40Z80
+ * Designed for BQ40Z50-R1/R2, BQ40Z80 and BQ78350
  *
  * @author Jacob Dahl <dahl.jakejacob@gmail.com>
  * @author Alex Klimaj <alexklimaj@gmail.com>
@@ -268,6 +268,7 @@ int BATT_SMBUS::get_cell_voltages()
 	} else if (_device_type == SMBUS_DEVICE_TYPE::BQ78350) {
 		int cell_1_addr = BATT_SMBUS_BQ40Z50_CELL_1_VOLTAGE;
 		for (int i=0; i < _cell_count; i++){
+			//Get each cell voltage, adresses decrementing from first cell
 			ret |= _interface->read_word(cell_1_addr - i, result);
 			// Convert millivolts to volts.
 			_cell_voltages[i] = ((float)result) / 1000.0f;
