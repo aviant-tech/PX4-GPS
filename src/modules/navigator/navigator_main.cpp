@@ -1377,7 +1377,9 @@ Navigator::publish_vehicle_cmd(vehicle_command_s *vcmd)
 	case NAV_CMD_VIDEO_STOP_CAPTURE:
 		vcmd->target_component = 100; // MAV_COMP_ID_CAMERA
 		break;
-
+	case NAV_CMD_DO_WINCH:
+		vcmd->target_component = 42; // WINCH
+		break;
 	default:
 		vcmd->target_component = _vstatus.component_id;
 		break;
