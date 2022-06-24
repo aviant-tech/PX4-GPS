@@ -198,6 +198,8 @@ void BATT_SMBUS::RunImpl()
 		orb_publish_auto(ORB_ID(battery_status), &_batt_topic, &new_report, &instance);
 
 		_last_report = new_report;
+	} else {
+		PX4_WARN("Error reading battery status");
 	}
 }
 
@@ -266,14 +268,15 @@ int BATT_SMBUS::get_cell_voltages()
 		_cell_voltages[6] = ((float)((DAstatus3[13] << 8) | DAstatus3[12]) / 1000.0f);
 
 	} else if (_device_type == SMBUS_DEVICE_TYPE::BQ78350) {
-		int cell_1_addr = BATT_SMBUS_BQ40Z50_CELL_1_VOLTAGE;
+		int cell_1_addr = BATT_SMBUS_BQ78350_CELL_1_VOLTAGE_ADDR;
 		for (int i=0; i < _cell_count; i++){
-			//Get each cell voltage, adresses decrementing from first cell
-			ret |= _interface->read_word(cell_1_addr - i, result);
+			//Get each cell voltage, adresses decrementing from first cell per definition of BQ78350 adress space
+			if (PX4_OK != _interface->read_word(cell_1_addr - i, result)){
+				return PX4_ERROR;
+			}
 			// Convert millivolts to volts.
 			_cell_voltages[i] = ((float)result) / 1000.0f;
 		}
-
 	}
 
 	//Calculate max cell delta

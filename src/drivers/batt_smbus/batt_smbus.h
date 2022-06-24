@@ -99,6 +99,8 @@ using namespace time_literals;
 #define BATT_SMBUS_BQ40Z80_CELL_5_VOLTAGE               0x3E
 #define BATT_SMBUS_BQ40Z80_CELL_4_VOLTAGE               0x3F
 
+#define BATT_SMBUS_BQ78350_CELL_1_VOLTAGE_ADDR          0x3F
+
 #define BATT_SMBUS_STATE_OF_HEALTH                      0x4F            ///< State of Health. The SOH information of the battery in percentage of Design Capacity
 
 #define BATT_SMBUS_MANUFACTURER_ACCESS                  0x00
