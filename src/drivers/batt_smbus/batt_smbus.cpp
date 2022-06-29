@@ -405,14 +405,16 @@ int BATT_SMBUS::get_startup_info()
 
 	uint16_t state_of_health;
 	ret |= _interface->read_word(BATT_SMBUS_STATE_OF_HEALTH_REG, state_of_health);
-
 	if (!ret) {
+		PX4_INFO("Got startup info");
 		_serial_number = serial_num;
 		_batt_startup_capacity = (uint16_t)((float)remaining_cap * _c_mult);
 		_cycle_count = cycle_count;
 		_batt_capacity = (uint16_t)((float)full_cap * _c_mult);
 		_manufacture_date = manufacture_date;
 		_state_of_health = state_of_health;
+	} else{
+		PX4_WARN("Could not get startup info");
 	}
 
 	if (lifetime_data_flush() == PX4_OK) {
