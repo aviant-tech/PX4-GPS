@@ -70,42 +70,42 @@ using namespace time_literals;
 
 #define BATT_SMBUS_ADDR                                 0x0B            ///< Default 7 bit address I2C address. 8 bit = 0x16
 
-#define BATT_SMBUS_TEMP                                 0x08            ///< temperature register
-#define BATT_SMBUS_VOLTAGE                              0x09            ///< voltage register
-#define BATT_SMBUS_CURRENT                              0x0A            ///< current register
-#define BATT_SMBUS_AVERAGE_CURRENT                      0x0B            ///< average current register
-#define BATT_SMBUS_MAX_ERROR                            0x0C            ///< max error
-#define BATT_SMBUS_RELATIVE_SOC                         0x0D            ///< Relative State Of Charge
-#define BATT_SMBUS_ABSOLUTE_SOC                         0x0E            ///< Absolute State of charge
-#define BATT_SMBUS_REMAINING_CAPACITY                   0x0F            ///< predicted remaining battery capacity as a percentage
-#define BATT_SMBUS_FULL_CHARGE_CAPACITY                 0x10            ///< capacity when fully charged
-#define BATT_SMBUS_RUN_TIME_TO_EMPTY                    0x11            ///< predicted remaining battery capacity based on the present rate of discharge in min
-#define BATT_SMBUS_AVERAGE_TIME_TO_EMPTY                0x12            ///< predicted remaining battery capacity based on the present rate of discharge in min
-#define BATT_SMBUS_CYCLE_COUNT                          0x17            ///< number of cycles the battery has experienced
-#define BATT_SMBUS_DESIGN_CAPACITY                      0x18            ///< design capacity register
-#define BATT_SMBUS_DESIGN_VOLTAGE                       0x19            ///< design voltage register
-#define BATT_SMBUS_MANUFACTURER_NAME                    0x20            ///< manufacturer name
+#define BATT_SMBUS_TEMP_REG                             0x08            ///< temperature register
+#define BATT_SMBUS_VOLTAGE_REG                          0x09            ///< voltage register
+#define BATT_SMBUS_CURRENT_REG                          0x0A            ///< current register
+#define BATT_SMBUS_AVERAGE_CURRENT_REG                  0x0B            ///< average current register
+#define BATT_SMBUS_MAX_ERROR_REG                        0x0C            ///< max error
+#define BATT_SMBUS_RELATIVE_SOC_REG                     0x0D            ///< Relative State Of Charge
+#define BATT_SMBUS_ABSOLUTE_SOC_REG                     0x0E            ///< Absolute State of charge
+#define BATT_SMBUS_REMAINING_CAPACITY_REG               0x0F            ///< predicted remaining battery capacity as a percentage
+#define BATT_SMBUS_FULL_CHARGE_CAPACITY_REG             0x10            ///< capacity when fully charged
+#define BATT_SMBUS_RUN_TIME_TO_EMPTY_REG                0x11            ///< predicted remaining battery capacity based on the present rate of discharge in min
+#define BATT_SMBUS_AVERAGE_TIME_TO_EMPTY_REG            0x12            ///< predicted remaining battery capacity based on the present rate of discharge in min
+#define BATT_SMBUS_CYCLE_COUNT_REG                      0x17            ///< number of cycles the battery has experienced
+#define BATT_SMBUS_DESIGN_CAPACITY_REG                  0x18            ///< design capacity register
+#define BATT_SMBUS_DESIGN_VOLTAGE_REG                   0x19            ///< design voltage register
+#define BATT_SMBUS_MANUFACTURER_NAME_REG                0x20            ///< manufacturer name
 #define BATT_SMBUS_MANUFACTURER_NAME_SIZE               21              ///< manufacturer name data size
-#define BATT_SMBUS_MANUFACTURE_DATE                     0x1B            ///< manufacture date register
-#define BATT_SMBUS_SERIAL_NUMBER                        0x1C            ///< serial number register
+#define BATT_SMBUS_MANUFACTURE_DATE_REG                 0x1B            ///< manufacture date register
+#define BATT_SMBUS_SERIAL_NUMBER_REG                    0x1C            ///< serial number register
 
-#define BATT_SMBUS_BQ40Z50_CELL_4_VOLTAGE               0x3C
-#define BATT_SMBUS_BQ40Z50_CELL_3_VOLTAGE               0x3D
-#define BATT_SMBUS_BQ40Z50_CELL_2_VOLTAGE               0x3E
-#define BATT_SMBUS_BQ40Z50_CELL_1_VOLTAGE               0x3F
+#define BATT_SMBUS_BQ40Z50_CELL_4_VOLTAGE_REG           0x3C
+#define BATT_SMBUS_BQ40Z50_CELL_3_VOLTAGE_REG           0x3D
+#define BATT_SMBUS_BQ40Z50_CELL_2_VOLTAGE_REG           0x3E
+#define BATT_SMBUS_BQ40Z50_CELL_1_VOLTAGE_REG           0x3F
 
-#define BATT_SMBUS_BQ40Z80_CELL_7_VOLTAGE               0x3C
-#define BATT_SMBUS_BQ40Z80_CELL_6_VOLTAGE               0x3D
-#define BATT_SMBUS_BQ40Z80_CELL_5_VOLTAGE               0x3E
-#define BATT_SMBUS_BQ40Z80_CELL_4_VOLTAGE               0x3F
+#define BATT_SMBUS_BQ40Z80_CELL_7_VOLTAGE_REG           0x3C
+#define BATT_SMBUS_BQ40Z80_CELL_6_VOLTAGE_REG           0x3D
+#define BATT_SMBUS_BQ40Z80_CELL_5_VOLTAGE_REG           0x3E
+#define BATT_SMBUS_BQ40Z80_CELL_4_VOLTAGE_REG           0x3F
 
-#define BATT_SMBUS_BQ78350_CELL_1_VOLTAGE_ADDR          0x3F
+#define BATT_SMBUS_BQ78350_CELL_1_VOLTAGE_REG           0x3F
 
-#define BATT_SMBUS_STATE_OF_HEALTH                      0x4F            ///< State of Health. The SOH information of the battery in percentage of Design Capacity
+#define BATT_SMBUS_STATE_OF_HEALTH_REG                  0x4F            ///< State of Health. The SOH information of the battery in percentage of Design Capacity
 
-#define BATT_SMBUS_MANUFACTURER_ACCESS                  0x00
-#define BATT_SMBUS_MANUFACTURER_DATA                    0x23
-#define BATT_SMBUS_MANUFACTURER_BLOCK_ACCESS            0x44
+#define BATT_SMBUS_MANUFACTURER_ACCESS_REG              0x00
+#define BATT_SMBUS_MANUFACTURER_DATA_REG                0x23
+#define BATT_SMBUS_MANUFACTURER_BLOCK_ACCESS_REG        0x44
 
 #define BATT_SMBUS_SECURITY_KEYS                        0x0035
 
