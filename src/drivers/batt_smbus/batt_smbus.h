@@ -250,6 +250,9 @@ private:
 	/** @param _failed_sends Number of times in a row the batter_status msg could not be sent. */
 	uint8_t _failed_sends{0};
 
+	/** @param _conn_lost If connection is considered lost, battery_status msgs not sent until regained. */
+	bool _conn_lost{false};
+
 	/** @param _batt_topic uORB battery topic. */
 	orb_advert_t _batt_topic{nullptr};
 

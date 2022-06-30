@@ -169,8 +169,9 @@ void BATT_SMBUS::RunImpl()
 	// Only publish if no errors.
 	if (ret == PX4_OK) {
 
-		if( _failed_sends >= BATT_SMBUS_CON_LOST_MSGS_THRESHOLD){
+		if( _conn_lost){
 			PX4_INFO("Connection to BMS regained");
+			_conn_lost = false;
 		}
 		_failed_sends = 0;
 
@@ -204,9 +205,10 @@ void BATT_SMBUS::RunImpl()
 		orb_publish_auto(ORB_ID(battery_status), &_batt_topic, &new_report, &instance);
 
 		_last_report = new_report;
-	} else {
+	} else if(!_conn_lost) {
 		if( _failed_sends >= BATT_SMBUS_CON_LOST_MSGS_THRESHOLD){
 			PX4_ERR("Connection to BMS lost");
+			_conn_lost = true;
 		} else {
 			_failed_sends++;
 		}
