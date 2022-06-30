@@ -171,6 +171,7 @@ void BATT_SMBUS::RunImpl()
 
 		if( _conn_lost){
 			PX4_INFO("Connection to BMS regained");
+			mavlink_log_info(&_mavlink_log_pub, "Battery telemetry regained.")
 			_conn_lost = false;
 		}
 		_failed_sends = 0;
@@ -208,6 +209,7 @@ void BATT_SMBUS::RunImpl()
 	} else if(!_conn_lost) {
 		if( _failed_sends >= BATT_SMBUS_CON_LOST_MSGS_THRESHOLD){
 			PX4_ERR("Connection to BMS lost");
+			mavlink_log_critical(&_mavlink_log_pub, "Battery telemetry lost.");
 			_conn_lost = true;
 		} else {
 			_failed_sends++;
