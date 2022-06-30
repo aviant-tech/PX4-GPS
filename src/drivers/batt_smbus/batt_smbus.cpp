@@ -168,6 +168,12 @@ void BATT_SMBUS::RunImpl()
 
 	// Only publish if no errors.
 	if (ret == PX4_OK) {
+
+		if( _failed_sends >= BATT_SMBUS_CON_LOST_MSGS_THRESHOLD){
+			PX4_INFO("Connection to BMS regained");
+		}
+		_failed_sends = 0;
+
 		new_report.capacity = _batt_capacity;
 		new_report.cycle_count = _cycle_count;
 		new_report.serial_number = _serial_number;
@@ -199,7 +205,12 @@ void BATT_SMBUS::RunImpl()
 
 		_last_report = new_report;
 	} else {
-		PX4_WARN("Error reading battery status");
+		if( _failed_sends >= BATT_SMBUS_CON_LOST_MSGS_THRESHOLD){
+			PX4_ERR("Connection to BMS lost");
+		} else {
+			_failed_sends++;
+		}
+
 	}
 }
 

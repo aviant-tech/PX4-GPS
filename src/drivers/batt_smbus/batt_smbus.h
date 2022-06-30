@@ -60,6 +60,8 @@ using namespace time_literals;
 
 #define BATT_SMBUS_MEASUREMENT_INTERVAL_US              100_ms         ///< time in microseconds, measure at 10Hz
 
+#define BATT_SMBUS_CON_LOST_MSGS_THRESHOLD		5	       ///< Number of lost msgs before connection considered lost
+
 #define MAC_DATA_BUFFER_SIZE                            32
 
 #define BATT_CELL_VOLTAGE_THRESHOLD_RTL                 0.5f            ///< Threshold in volts to RTL if cells are imbalanced
@@ -244,6 +246,9 @@ private:
 
 	/** @param _last_report Last published report, used for test(). */
 	battery_status_s _last_report{};
+
+	/** @param _failed_sends Number of times in a row the batter_status msg could not be sent. */
+	uint8_t _failed_sends{0};
 
 	/** @param _batt_topic uORB battery topic. */
 	orb_advert_t _batt_topic{nullptr};
