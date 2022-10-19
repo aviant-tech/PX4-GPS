@@ -63,7 +63,7 @@ using namespace time_literals;
 
 #define BATT_SMBUS_MEASUREMENT_INTERVAL_US              100_ms         ///< time in microseconds, measure at 10Hz
 
-#define BATT_SMBUS_CON_LOST_MSGS_THRESHOLD              10             ///< Number of lost msgs before connection considered lost
+#define BATT_SMBUS_CON_LOST_MSGS_THRESHOLD              50             ///< Number of lost msgs before connection considered lost
 
 #define MAC_DATA_BUFFER_SIZE                            32
 
