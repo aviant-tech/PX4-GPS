@@ -3693,28 +3693,30 @@ void Commander::battery_status_check()
 
 	battery_level /= num_connected_batteries;
 
-	_rtl_flight_time_sub.update();
-	float battery_usage_to_home = 0;
+	if (_param_com_pred_bat_fs.get() == 1) {
+		_rtl_flight_time_sub.update();
+		float battery_usage_to_home = 0;
 
-	if (hrt_absolute_time() - _rtl_flight_time_sub.get().timestamp < 2_s) {
-		battery_usage_to_home = _rtl_flight_time_sub.get().rtl_limit_fraction;
-	}
-
-	uint8_t battery_range_warning = battery_status_s::BATTERY_WARNING_NONE;
-
-	if (PX4_ISFINITE(battery_usage_to_home)) {
-		float battery_at_home = battery_level - battery_usage_to_home;
-
-		if (battery_at_home < _param_bat_crit_thr.get()) {
-			battery_range_warning =  battery_status_s::BATTERY_WARNING_CRITICAL;
-
-		} else if (battery_at_home < _param_bat_low_thr.get()) {
-			battery_range_warning = battery_status_s::BATTERY_WARNING_LOW;
+		if (hrt_absolute_time() - _rtl_flight_time_sub.get().timestamp < 2_s) {
+			battery_usage_to_home = _rtl_flight_time_sub.get().rtl_limit_fraction;
 		}
-	}
 
-	if (battery_range_warning > worst_warning) {
-		worst_warning = battery_range_warning;
+		uint8_t battery_range_warning = battery_status_s::BATTERY_WARNING_NONE;
+
+		if (PX4_ISFINITE(battery_usage_to_home)) {
+			float battery_at_home = battery_level - battery_usage_to_home;
+
+			if (battery_at_home < _param_bat_crit_thr.get()) {
+				battery_range_warning =  battery_status_s::BATTERY_WARNING_CRITICAL;
+
+			} else if (battery_at_home < _param_bat_low_thr.get()) {
+				battery_range_warning = battery_status_s::BATTERY_WARNING_LOW;
+			}
+		}
+
+		if (battery_range_warning > worst_warning) {
+			worst_warning = battery_range_warning;
+		}
 	}
 
 	bool battery_warning_level_increased_while_armed = false;
