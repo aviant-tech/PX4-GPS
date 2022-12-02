@@ -77,6 +77,16 @@ bool FlightTaskAutoMapper::update()
 		break;
 
 	case WaypointType::land:
+	        if (_type_previous != _type) {
+			// Reset the trajectory current position when initializing landing.
+			// This is important when time stretching is disabled for landing trajectory,
+			// when the drone is blown away from its current setpoint by strong winds.
+			// This reduces that chance that when the drone descends to lower altitudes
+			// with potentially less wind, and moves towards its previous trajectory setpoint.
+			// TODO Should be set by a common parameter as disable time stretch for landing.
+			// TODO evaluate if needed to reset position again during landing if drift is too high
+			_ekfResetHandlerPositionXY();
+		}
 		_prepareLandSetpoints();
 		break;
 

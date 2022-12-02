@@ -462,6 +462,14 @@ void FlightTaskAutoLineSmoothVel::_generateTrajectory()
 		time_stretch = 1.f;
 	}
 
+	// Don't stretch time while landing
+	// This is to prevent scenarios where the drone is unable to land
+	// due to strong winds that blows the drone away from its setpoint
+	// TODO Create a parameter to enable/disable this feature
+	if (_type == WaypointType::land) {
+		time_stretch = 1.f;
+	}
+
 	Vector3f jerk_sp_smooth;
 	Vector3f accel_sp_smooth;
 	Vector3f vel_sp_smooth;
