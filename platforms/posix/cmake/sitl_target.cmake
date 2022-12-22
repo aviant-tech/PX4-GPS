@@ -169,6 +169,7 @@ set(models
 	shell
 	solo
 	standard_vtol
+	standard_vtol_lidar
 	standard_vtol_drop
 	tailsitter
 	techpod
