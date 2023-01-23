@@ -63,3 +63,13 @@ PARAM_DEFINE_FLOAT(BAT_C_MULT, 1.0f);
  * @group Sensors
  */
 PARAM_DEFINE_INT32(BAT_SMBUS_MODEL, 3);
+
+/**
+ * Enable undervoltage protection
+ *
+ * @reboot_required true
+ *
+ * @boolean
+ * @group Sensors
+ */
+PARAM_DEFINE_INT32(BAT_EN_CUV, 0);

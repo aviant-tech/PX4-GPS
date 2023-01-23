@@ -136,7 +136,12 @@ void BATT_SMBUS::RunImpl()
 
 	// If current is high, turn under voltage protection off. This is neccessary to prevent
 	// a battery from cutting off while flying with high current near the end of the packs capacity.
-	set_undervoltage_protection(average_current);
+	int32_t enable_cuv = 0;
+	param_set(param_find("BAT_EN_CUV"), &enable_cuv);
+
+	if (enable_cuv){
+		set_undervoltage_protection(average_current);
+	}
 
 	// Read run time to empty (minutes).
 	ret |= _interface->read_word(BATT_SMBUS_RUN_TIME_TO_EMPTY, result);
