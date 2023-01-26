@@ -470,6 +470,9 @@ void RTL::set_rtl_item()
 			_mission_item.altitude = loiter_altitude;
 			_mission_item.altitude_is_relative = false;
 			_mission_item.yaw = get_bearing_to_next_waypoint(gpos.lat, gpos.lon, _mission_item.lat, _mission_item.lon);
+			_mission_item.vtol_back_transition = true;
+			// acceptance_radius will be overwritten since vtol_back_transition is set,
+			// set as a default value only
 			_mission_item.acceptance_radius = _navigator->get_acceptance_radius();
 			_mission_item.time_inside = 0.0f;
 			_mission_item.autocontinue = true;
