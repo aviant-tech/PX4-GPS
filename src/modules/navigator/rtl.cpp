@@ -470,6 +470,9 @@ void RTL::set_rtl_item()
 			_mission_item.altitude = loiter_altitude;
 			_mission_item.altitude_is_relative = false;
 			_mission_item.yaw = get_bearing_to_next_waypoint(gpos.lat, gpos.lon, _mission_item.lat, _mission_item.lon);
+			_mission_item.vtol_back_transition = true;
+			// acceptance_radius will be overwritten since vtol_back_transition is set,
+			// set as a default value only
 			_mission_item.acceptance_radius = _navigator->get_acceptance_radius();
 			_mission_item.time_inside = 0.0f;
 			_mission_item.autocontinue = true;
@@ -588,21 +591,29 @@ void RTL::advance_rtl()
 
 		if (is_fw) {
 			_rtl_state = RTL_STATE_DESCEND;
+
 		} else if (do_mc_descend) {
 			_rtl_state = RTL_STATE_MC_DESCEND;
+
 		} else {  // MC with RTL_DESCEND_MC <= 0
 			_rtl_state = RTL_STATE_LAND;
 		}
+
 		break;
 
 	case RTL_STATE_DESCEND:
-		if (do_fw_loiter) {
+		// We should normally always be in FW in this state,
+		// but we handle MC as well
+		if (is_fw && do_fw_loiter) {
 			_rtl_state = RTL_STATE_LOITER;
+
 		} else if (is_fw && is_vtol) {
 			_rtl_state = RTL_STATE_HEAD_TO_CENTER;
+
 		} else if (!is_fw && do_mc_descend) {
 			_rtl_state = RTL_STATE_MC_DESCEND;
-		} else {  // FW and not VTOL
+
+		} else {  // FW and not VTOL, or MC
 			_rtl_state = RTL_STATE_LAND;
 		}
 
@@ -611,9 +622,11 @@ void RTL::advance_rtl()
 	case RTL_STATE_LOITER:
 		if (is_vtol) {
 			_rtl_state = RTL_STATE_HEAD_TO_CENTER;
+
 		} else {  // FW and not VTOL
 			_rtl_state = RTL_STATE_LAND;
 		}
+
 		break;
 
 	case RTL_STATE_HEAD_TO_CENTER:
@@ -627,9 +640,11 @@ void RTL::advance_rtl()
 	case RTL_MOVE_TO_LAND_HOVER_VTOL:
 		if (do_mc_descend) {
 			_rtl_state = RTL_STATE_MC_DESCEND;
+
 		} else {
 			_rtl_state = RTL_STATE_LAND;
 		}
+
 		break;
 
 	case RTL_STATE_MC_DESCEND:
