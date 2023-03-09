@@ -1835,6 +1835,37 @@ Mavlink::configure_streams_to_default(const char *configure_single_stream)
 int
 Mavlink::task_main(int argc, char *argv[])
 {
+	// If stdin, stdout and/or stderr file descriptors (0, 1, 2)
+	// are not open when mavlink module starts (as might be the case for USB auto-start),
+	// use default /dev/null so that these numbers are not used by other other files.
+	if (fcntl(0, F_GETFD) == -1) {
+		int tmp = open("/dev/null", O_RDONLY);
+
+		if (tmp != 0) {
+			dup2(tmp, 0);
+			close(tmp);
+		}
+
+	}
+
+	if (fcntl(1, F_GETFD) == -1) {
+		int tmp = open("/dev/null", O_WRONLY);
+
+		if (tmp != 1) {
+			dup2(tmp, 1);
+			close(tmp);
+		}
+	}
+
+	if (fcntl(2, F_GETFD) == -1) {
+		int tmp = open("/dev/null", O_WRONLY);
+
+		if (tmp != 2) {
+			dup2(tmp, 2);
+			close(tmp);
+		}
+	}
+
 	int ch;
 	_baudrate = 57600;
 	_datarate = 0;
