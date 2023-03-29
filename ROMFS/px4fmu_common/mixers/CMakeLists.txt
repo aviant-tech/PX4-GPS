@@ -62,6 +62,7 @@ px4_add_romfs_files(
 	octo_cox_w.main.mix
 	octo_+.main.mix
 	octo_x.main.mix
+	octo_h.main.mix
 	pass.aux.mix
 	quad_dc.main.mix
 	quad_h.main.mix
@@ -87,6 +88,7 @@ px4_add_romfs_files(
 	vtol_AAERT.aux.mix
 	vtol_AAVVT.aux.mix
 	vtol_TTTTAAER.aux.mix
+	vtol_AVTV.aux.mix
 	vtol_convergence.main.mix
 	vtol_delta.aux.mix
 	vtol_tailsitter_duo.main.mix

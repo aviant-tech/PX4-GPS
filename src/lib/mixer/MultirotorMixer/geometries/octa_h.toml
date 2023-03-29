@@ -1,8 +1,8 @@
-# Generic Octacopter in coax configuration
+# Generic Octacopter in h configuration
 
 [info]
 key = "8h"
-description = "GenericOctacopter in coax configuration"
+description = "Generic Octacopter in h configuration"
 
 [rotor_default]
 axis      = [0.0, 0.0, -1.0]
@@ -11,40 +11,40 @@ Cm        = 0.05
 
 [[rotors]]
 name      = "front_right_outter"
-position  = [0.94003607,  0.34107504, -0.10814574]
+position  = [0.93458673, 0.33909784, -0.10751883]
 direction = "CCW"
 
 [[rotors]]
 name     = "front_left_outter"
-position = [0.94003607, -0.34107504, -0.10814574]
+position = [0.93458673, -0.33909784, -0.10751883]
 direction = "CW"
 
 [[rotors]]
 name      = "rear_left_outter"
-position  = [-0.42426407, -0.34107504, -0.10814574]
+position  = [-0.42180463, -0.33909784, -0.10751883]
 direction = "CCW"
 
 [[rotors]]
 name     = "rear_right_outter"
-position = [-0.42426407,  0.34107504, -0.10814574]
+position = [-0.42180463, 0.33909784, -0.10751883]
 direction = "CW"
 
 [[rotors]]
 name     = "front_left_inner"
-position = [ 0.54904762, -0.34107504, -0.10814574]
+position = [ 0.54586482, -0.33909784, -0.10751883]
 direction = "CCW"
 
 [[rotors]]
 name      = "front_right_inner"
-position  = [0.54904762,  0.34107504, -0.10814574]
+position  = [0.54586482, 0.33909784, -0.10751883]
 direction = "CW"
 
 [[rotors]]
 name     = "rear_right_inner"
-position = [-0.03327561,  0.34107504, -0.10814574]
+position = [-0.03308272, 0.33909784, -0.10751883]
 direction = "CCW"
 
 [[rotors]]
 name      = "rear_left_inner"
-position  = [-0.03327561, -0.34107504, -0.10814574]
+position  = [-0.03308272, -0.33909784, -0.10751883]
 direction = "CW"
