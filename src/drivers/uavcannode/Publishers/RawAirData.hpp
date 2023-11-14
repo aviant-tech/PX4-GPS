@@ -73,6 +73,8 @@ public:
 		differential_pressure_s diff_press;
 
 		if (uORB::SubscriptionCallbackWorkItem::update(&diff_press)) {
+			if (!readyToPublish()) { return; }
+
 			uavcan::equipment::air_data::RawAirData raw_air_data{};
 
 			// raw_air_data.static_pressure =

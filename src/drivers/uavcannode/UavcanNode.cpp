@@ -755,6 +755,15 @@ extern "C" int uavcannode_start(int argc, char *argv[])
 		}
 	}
 
+	// If DNA is disabled, use user-supplied ID
+	int32_t dna_enabled = 1;
+	param_get(param_find("CANNODE_DNA"), &dna_enabled);
+
+	if (!dna_enabled) {
+		param_get(param_find("CANNODE_NODE_ID"), &node_id);
+
+	}
+
 	if (
 #if defined(SUPPORT_ALT_CAN_BOOTLOADER)
 		board_booted_by_px4() &&
@@ -763,6 +772,8 @@ extern "C" int uavcannode_start(int argc, char *argv[])
 		PX4_ERR("Invalid Node ID %" PRId32, node_id);
 		return 1;
 	}
+
+
 
 	// Start
 	PX4_INFO("Node ID %" PRId32 ", bitrate %" PRId32, node_id, bitrate);

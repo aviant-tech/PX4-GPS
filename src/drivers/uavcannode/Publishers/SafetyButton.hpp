@@ -72,6 +72,8 @@ public:
 		button_event_s safety_button;
 
 		if (uORB::SubscriptionCallbackWorkItem::update(&safety_button)) {
+			if (!readyToPublish()) { return; }
+
 			if (safety_button.triggered) {
 				ardupilot::indication::Button Button{};
 				Button.button = ardupilot::indication::Button::BUTTON_SAFETY;

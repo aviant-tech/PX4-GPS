@@ -77,6 +77,8 @@ public:
 		sensor_gps_s gps;
 
 		if (uORB::SubscriptionCallbackWorkItem::update(&gps)) {
+			if (!readyToPublish()) { return; }
+
 			uavcan::equipment::gnss::Fix2 fix2{};
 
 			fix2.gnss_time_standard = fix2.GNSS_TIME_STANDARD_UTC;

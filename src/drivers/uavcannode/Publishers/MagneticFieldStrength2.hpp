@@ -73,6 +73,8 @@ public:
 		vehicle_magnetometer_s vehicle_magnetometer;
 
 		if (uORB::SubscriptionCallbackWorkItem::update(&vehicle_magnetometer)) {
+			if (!readyToPublish()) { return; }
+
 			uavcan::equipment::ahrs::MagneticFieldStrength2 magnetic_field{};
 			magnetic_field.sensor_id = uORB::SubscriptionCallbackWorkItem::get_instance();
 			magnetic_field.magnetic_field_ga[0] = vehicle_magnetometer.magnetometer_ga[0];

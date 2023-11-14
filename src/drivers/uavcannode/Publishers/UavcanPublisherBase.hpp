@@ -35,6 +35,8 @@
 
 #include <containers/IntrusiveSortedList.hpp>
 #include <uavcan/uavcan.hpp>
+#include <lib/parameters/param.h>
+#include <drivers/drv_hrt.h>
 
 #include <uavcan/node/publisher.hpp>
 
@@ -45,7 +47,17 @@ class UavcanPublisherBase : public IntrusiveSortedListNode<UavcanPublisherBase *
 {
 public:
 	UavcanPublisherBase() = delete;
-	explicit UavcanPublisherBase(uint16_t id) : _id(id) {}
+	explicit UavcanPublisherBase(uint16_t id) : _id(id)
+	{
+		int32_t delay_ms;
+		param_get(param_find("CANNODE_DELAY_MS"), &delay_ms);
+
+		if (delay_ms < 0) {
+			return;
+		}
+
+		delay_us = static_cast<hrt_abstime>(delay_ms) * hrt_abstime{1000};
+	}
 
 	virtual ~UavcanPublisherBase() = default;
 
@@ -61,7 +73,20 @@ public:
 
 	uint16_t id() const { return _id; }
 
+	bool readyToPublish()
+	{
+		// Init delay
+		hrt_abstime current_time = hrt_absolute_time();
+
+		if (current_time < delay_us) {
+			return false;
+		}
+
+		return true;
+	}
+
 private:
 	uint16_t _id{0};
+	hrt_abstime delay_us = 0;
 };
 } // namespace uavcannode

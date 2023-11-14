@@ -74,6 +74,8 @@ public:
 
 		if (uORB::SubscriptionCallbackWorkItem::update(&esc_status)) {
 
+			if (!readyToPublish()) { return; }
+
 			for (size_t i = 0; i < esc_status.esc_count; i++) {
 				uavcan::equipment::esc::Status status{};
 

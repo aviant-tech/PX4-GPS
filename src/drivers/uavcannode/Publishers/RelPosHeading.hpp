@@ -76,6 +76,8 @@ public:
 		sensor_gnss_relative_s sensor_gnss_relative;
 
 		if (uORB::SubscriptionCallbackWorkItem::update(&sensor_gnss_relative)) {
+			if (!readyToPublish()) { return; }
+
 			ardupilot::gnss::RelPosHeading rel_pos_heading{};
 
 			// TODO: FIX (timestamp_sample and UAVCAN timestamp)

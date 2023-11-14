@@ -73,6 +73,8 @@ public:
 		sensor_baro_s baro;
 
 		if (uORB::SubscriptionCallbackWorkItem::update(&baro)) {
+			if (!readyToPublish()) { return; }
+
 			uavcan::equipment::air_data::StaticPressure static_pressure{};
 			static_pressure.static_pressure = baro.pressure;
 			uavcan::Publisher<uavcan::equipment::air_data::StaticPressure>::broadcast(static_pressure);

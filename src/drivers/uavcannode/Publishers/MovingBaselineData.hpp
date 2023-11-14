@@ -76,6 +76,8 @@ public:
 		gps_inject_data_s inject_data;
 
 		if (uORB::SubscriptionCallbackWorkItem::update(&inject_data)) {
+			if (!readyToPublish()) { return; }
+
 			// Prevent republishing rtcm data we received from uavcan
 			union device::Device::DeviceId device_id;
 			device_id.devid = inject_data.device_id;

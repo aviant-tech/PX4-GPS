@@ -87,3 +87,27 @@ PARAM_DEFINE_INT32(CANNODE_SUB_RTCM, 0);
  * @group UAVCAN
  */
 PARAM_DEFINE_INT32(CANNODE_PUB_MBD, 0);
+/**
+ * UAVCAN dynamic node allocation
+ *
+ * If this is disabled, the CANNODE_NODE_ID will be used regardless of DNA.
+ *
+ * @boolean
+ * @value 0 Dynamic allocation
+ * @reboot_required true
+ * @group UAVCAN
+ */
+PARAM_DEFINE_INT32(CANNODE_DNA, 1);
+
+/**
+ * Delayed start for publishers
+ *
+ * Delay, in milliseconds after boot, to wait before publishing sensor data.
+ * This can be used to ensure correct sensor initialization order.
+ *
+ * @min 0
+ * @reboot_required true
+ * @group uavcan
+ *
+*/
+PARAM_DEFINE_INT32(CANNODE_DELAY_MS, 0);

@@ -73,6 +73,8 @@ public:
 		sensor_baro_s baro;
 
 		if ((hrt_elapsed_time(&_last_static_temperature_publish) > 1_s) && uORB::SubscriptionCallbackWorkItem::update(&baro)) {
+			if (!readyToPublish()) { return; }
+
 			uavcan::equipment::air_data::StaticTemperature static_temperature{};
 			static_temperature.static_temperature = baro.temperature - CONSTANTS_ABSOLUTE_NULL_CELSIUS;
 			uavcan::Publisher<uavcan::equipment::air_data::StaticTemperature>::broadcast(static_temperature);
