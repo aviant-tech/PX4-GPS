@@ -421,18 +421,23 @@ int UavcanNode::init(uavcan::NodeID node_id, UAVCAN_DRIVER::BusEvent &bus_events
 #endif // CONFIG_UAVCANNODE_LIGHTS_COMMAND
 
 #if defined(CONFIG_UAVCANNODE_RTK_DATA)
+	int32_t src_id_filter = -1;
+	param_get(param_find("CANNODE_RTK_FLT"), &src_id_filter);
+
+
 	int32_t cannode_sub_mbd = 0;
 	param_get(param_find("CANNODE_SUB_MBD"), &cannode_sub_mbd);
 
 	if (cannode_sub_mbd == 1) {
-		_subscriber_list.add(new MovingBaselineData(_node));
+		auto mbd_subscriber = new MovingBaselineData(_node, src_id_filter);
+		_subscriber_list.add(mbd_subscriber);
 	}
 
 	int32_t cannode_sub_rtcm = 0;
 	param_get(param_find("CANNODE_SUB_RTCM"), &cannode_sub_rtcm);
 
 	if (cannode_sub_rtcm == 1) {
-		_subscriber_list.add(new RTCMStream(_node));
+		_subscriber_list.add(new RTCMStream(_node, src_id_filter));
 	}
 
 #endif // CONFIG_UAVCANNODE_RTK_DATA

@@ -57,7 +57,14 @@ class RTCMStream :
 public:
 	RTCMStream(uavcan::INode &node) :
 		UavcanSubscriberBase(uavcan::equipment::gnss::RTCMStream::DefaultDataTypeID),
-		uavcan::Subscriber<uavcan::equipment::gnss::RTCMStream, RTCMStreamBinder>(node)
+		uavcan::Subscriber<uavcan::equipment::gnss::RTCMStream, RTCMStreamBinder>(node),
+		_src_id_filter{-1}
+	{}
+
+	RTCMStream(uavcan::INode &node, int32_t src_id_filter) :
+		UavcanSubscriberBase(uavcan::equipment::gnss::RTCMStream::DefaultDataTypeID),
+		uavcan::Subscriber<uavcan::equipment::gnss::RTCMStream, RTCMStreamBinder>(node),
+		_src_id_filter{src_id_filter}
 	{}
 
 	bool init()
@@ -79,8 +86,13 @@ public:
 	}
 
 private:
+	int32_t _src_id_filter;
 	void callback(const uavcan::ReceivedDataStructure<uavcan::equipment::gnss::RTCMStream> &msg)
 	{
+		if (_src_id_filter != -1 && msg.getSrcNodeID().get() != _src_id_filter) {
+			return;
+		}
+
 		// Don't republish a message from ourselves
 		if (msg.getSrcNodeID().get() != getNode().getNodeID().get()) {
 			gps_inject_data_s gps_inject_data{};

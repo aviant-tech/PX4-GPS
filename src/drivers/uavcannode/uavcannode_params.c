@@ -100,6 +100,19 @@ PARAM_DEFINE_INT32(CANNODE_PUB_MBD, 0);
 PARAM_DEFINE_INT32(CANNODE_DNA, 1);
 
 /**
+ * Filter for RTK data
+ *
+ * Only accept incoming RTK corrections from the following node ID. If -1, filter is disabled
+ *
+ * @value -1 No filter
+ * @min -1
+ * @max 127
+ * @reboot_required true
+ * @group UAVCAN
+ */
+PARAM_DEFINE_INT32(CANNODE_RTK_FLT, -1);
+
+/**
  * Delayed start for publishers
  *
  * Delay, in milliseconds after boot, to wait before publishing sensor data.
