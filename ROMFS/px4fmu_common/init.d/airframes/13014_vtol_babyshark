@@ -97,7 +97,7 @@ param set-default VT_TRANS_MIN_TM 4
 param set-default VT_TYPE 2
 
 set MIXER babyshark
-set MIXER_AUX babyshark
+set MIXER_AUX pass
 
 # Mark outputs for the alternate rate
 # or D-Shot

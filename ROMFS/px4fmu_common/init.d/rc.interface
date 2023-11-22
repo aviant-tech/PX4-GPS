@@ -150,8 +150,27 @@ then
 
 	if [ $OUTPUT_MODE = uavcan_esc ]
 	then
+		# Load the mixer to the original PWM output as well
+		if mixer load ${OUTPUT_DEV} ${MIXER_FILE}
+		then
+			echo "INFO  [init] Mixer: ${MIXER_FILE} on ${OUTPUT_DEV}"
+
+		else
+			echo "ERROR  [init] Failed loading mixer: ${MIXER_FILE}"
+			tune_control play -t 18 # tune 18 = PROG_PX4IO_ERR
+		fi
+		# Set the pwm rate
+		if [ $PWM_MAIN_RATE != none ]
+		then
+			# Set PWM output frequency.
+			if ! param compare SYS_CTRL_ALLOC 1
+			then
+				pwm rate -c ${PWM_OUT} -r ${PWM_MAIN_RATE}
+			fi
+		fi
+
+		# Then we allow the mixer to be loaded to UAVCAN as well
 		set OUTPUT_DEV /dev/uavcan/esc
-		set OUTPUT_AUX_DEV /dev/pwm_output0
 	fi
 
 	if mixer load ${OUTPUT_DEV} ${MIXER_FILE}
