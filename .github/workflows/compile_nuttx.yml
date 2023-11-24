@@ -83,3 +83,4 @@ jobs:
         files: |
           build/cubepilot_cubeorange_default/*.px4
           build/cubepilot_cubeorange_default/*.bin
+        prerelease: true
