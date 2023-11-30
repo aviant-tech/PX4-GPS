@@ -275,3 +275,27 @@ TEST_F(GpsBlendingTest, dualReceiverFailover)
 	EXPECT_EQ(gps_blending.getSelectedGps(), 0);
 	EXPECT_TRUE(gps_blending.isNewOutputDataAvailable());
 }
+
+TEST_F(GpsBlendingTest, dualReceiverUtcTime)
+{
+	GpsBlending gps_blending;
+	// WHEN: only the secondary receiver has a valid time
+	sensor_gps_s gps_data0 = getDefaultGpsData();
+	sensor_gps_s gps_data1 = getDefaultGpsData();
+	gps_data_1.time_utc_usec = 1700000000000000ULL;
+	gps_blending.setBlendingUseHPosAccuracy(true);
+	gps_blending.update(_time_now_us);
+	// THEN: GPS 1 time should be used, since only GPS 1 has a valid time
+	EXPECT_EQ(gps_blending.getOutputGpsData().time_utc_usec, gps_data1.time_utc_usec);
+
+	// WHEN: both receivers have a valid time
+	gps_blending = GpsBlending();
+	sensor_gps_s gps_data0 = getDefaultGpsData();
+	sensor_gps_s gps_data1 = getDefaultGpsData();
+	gps_data_0.time_utc_usec = 1700000000001000ULL;
+	gps_data_1.time_utc_usec = 1700000000000000ULL;
+	gps_blending.setBlendingUseHPosAccuracy(true);
+	gps_blending.update(_time_now_us);
+	// THEN: The average of the two times should be used
+	EXPECT_EQ(gps_blending.getOutputGpsData().time_utc_usec, 1700000000000500ULL);
+}
