@@ -493,6 +493,20 @@ sensor_gps_s GpsBlending::gps_blend_states(float blend_weights[GPS_MAX_RECEIVERS
 		gps_blended_state.heading_accuracy = _gps_state[gps_best_yaw_index].heading_accuracy;
 	}
 
+	// Blend UTC timestamp from all receivers that are publishing a valid time_us value
+	float utc_weight_sum = 0.0f;
+
+	for (uint8_t i = 0; i < GPS_MAX_RECEIVERS_BLEND; i++) {
+		if (_gps_state[i].time_utc_usec > 0) {
+			gps_blended_state.time_utc_usec += (uint64_t)((double)_gps_state[i].time_utc_usec * (double)blend_weights[i]);
+			utc_weight_sum += blend_weights[i];
+		}
+	}
+
+	if (utc_weight_sum > 0.0f) {
+		gps_blended_state.time_utc_usec /= utc_weight_sum;
+	}
+
 	return gps_blended_state;
 }
 
