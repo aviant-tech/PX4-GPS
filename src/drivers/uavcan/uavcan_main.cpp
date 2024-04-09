@@ -109,6 +109,21 @@ UavcanNode::UavcanNode(uavcan::ICanDriver &can_driver, uavcan::ISystemClock &sys
 	_param_opcode_client(_node),
 	_param_restartnode_client(_node)
 {
+
+	// Advertise status topics
+	for (int i = 0; i < UAVCAN_NUM_IFACES; ++i) {
+		_can_status_pubs[i] = new uORB::PublicationMulti<can_interface_status_s> {ORB_ID(can_interface_status)};
+
+		if (_can_status_pubs[i] == nullptr) {
+			PX4_ERR("Out of memory");
+			std::abort();
+		}
+
+		if (!_can_status_pubs[i]->advertise()){
+			PX4_ERR("Failed to advertise status topic for CAN interface %i", i);
+		}
+	}
+
 	int res = pthread_mutex_init(&_node_mutex, nullptr);
 
 	if (res < 0) {
@@ -149,6 +164,11 @@ UavcanNode::~UavcanNode()
 
 	// Removing the sensor bridges
 	_sensor_bridges.clear();
+
+	// Delete status publishers
+	for (int i = 0; i < UAVCAN_NUM_IFACES; ++i) {
+		delete _can_status_pubs[i];
+	}
 
 	pthread_mutex_destroy(&_node_mutex);
 
@@ -750,11 +770,7 @@ UavcanNode::Run()
 	if (hrt_absolute_time() - _last_can_status_pub >= status_pub_interval) {
 		_last_can_status_pub = hrt_absolute_time();
 
-		for (int i = 0; i < _node.getDispatcher().getCanIOManager().getCanDriver().getNumIfaces(); i++) {
-			if (i > UAVCAN_NUM_IFACES) {
-				break;
-			}
-
+		for (int i = 0; i < UAVCAN_NUM_IFACES; i++) {
 			auto iface = _node.getDispatcher().getCanIOManager().getCanDriver().getIface(i);
 
 			if (!iface) {
@@ -770,12 +786,7 @@ UavcanNode::Run()
 				.interface = static_cast<uint8_t>(i),
 			};
 
-			if (_can_status_pub_handles[i] == nullptr) {
-				int instance{0};
-				_can_status_pub_handles[i] = orb_advertise_multi(ORB_ID(can_interface_status), nullptr, &instance);
-			}
-
-			(void)orb_publish(ORB_ID(can_interface_status), _can_status_pub_handles[i], &status);
+			_can_status_pubs[i]->publish(status);
 		}
 	}
 
