@@ -45,7 +45,7 @@
 #pragma once
 
 #include <uavcan/uavcan.hpp>
-#include <uavcan/equipment/esc/RawCommand.hpp>
+#include <uavcan/equipment/esc/RPMCommand.hpp>
 #include <uavcan/equipment/esc/Status.hpp>
 #include <lib/perf/perf_counter.h>
 #include <uORB/PublicationMulti.hpp>
@@ -61,7 +61,7 @@ public:
 	static constexpr unsigned MAX_RATE_HZ = 400;
 	static constexpr uint16_t DISARMED_OUTPUT_VALUE = UINT16_MAX;
 
-	static_assert(uavcan::equipment::esc::RawCommand::FieldTypes::cmd::MaxSize >= MAX_ACTUATORS, "Too many actuators");
+	static_assert(uavcan::equipment::esc::RPMCommand::FieldTypes::rpm::MaxSize >= MAX_ACTUATORS, "Too many actuators");
 
 
 	UavcanEscController(uavcan::INode &node);
@@ -76,7 +76,7 @@ public:
 	 */
 	void set_rotor_count(uint8_t count);
 
-	static int max_output_value() { return uavcan::equipment::esc::RawCommand::FieldTypes::cmd::RawValueType::max(); }
+	static int max_output_value() { return 10000; }
 
 private:
 	/**
@@ -108,7 +108,7 @@ private:
 	 */
 	uavcan::MonotonicTime							_prev_cmd_pub;   ///< rate limiting
 	uavcan::INode								&_node;
-	uavcan::Publisher<uavcan::equipment::esc::RawCommand>			_uavcan_pub_raw_cmd;
+	uavcan::Publisher<uavcan::equipment::esc::RPMCommand>			_uavcan_pub_rpm_cmd;
 	uavcan::Subscriber<uavcan::equipment::esc::Status, StatusCbBinder>	_uavcan_sub_status;
 
 	/*
