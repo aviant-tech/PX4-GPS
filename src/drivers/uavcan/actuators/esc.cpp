@@ -41,6 +41,9 @@
 #include <systemlib/err.h>
 #include <drivers/drv_hrt.h>
 
+#undef PX4_DEBUG
+#define PX4_DEBUG PX4_INFO
+
 #define MOTOR_BIT(x) (1<<(x))
 
 using namespace time_literals;

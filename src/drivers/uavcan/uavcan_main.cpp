@@ -67,6 +67,9 @@
 
 #include <uavcan/protocol/param/ExecuteOpcode.hpp>
 
+#undef PX4_DEBUG
+#define PX4_DEBUG PX4_INFO
+
 //todo:The Inclusion of file_server_backend is killing
 // #include <sys/types.h> and leaving OK undefined
 # define OK 0
@@ -1183,7 +1186,7 @@ UavcanNode::cb_getset(const uavcan::ServiceCallResult<uavcan::protocol::param::G
 			_param_counts[node_id] = 0;
 			_count_in_progress = false;
 			_count_index = 0;
-			PX4_ERR("GetSet error during param count");
+			PX4_ERR("GetSet error during param count for node %hhu", node_id);
 		}
 
 	} else {

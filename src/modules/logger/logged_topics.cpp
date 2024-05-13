@@ -60,7 +60,7 @@ void LoggedTopics::add_default_topics()
 	add_topic("cellular_status", 200);
 	add_topic("commander_state");
 	add_topic("cpuload");
-	add_optional_topic("esc_status", 250);
+	add_optional_topic("esc_status");
 	add_topic("failure_detector_status", 100);
 	add_optional_topic("follow_target", 500);
 	add_topic("fw_virtual_attitude_setpoint", 50);
@@ -109,7 +109,7 @@ void LoggedTopics::add_default_topics()
 	add_topic("vehicle_constraints", 1000);
 	add_topic("vehicle_control_mode");
 	add_topic("vehicle_global_position", 200);
-	add_topic("vehicle_gps_position", 500);
+	add_topic("vehicle_gps_position");
 	add_topic("vehicle_land_detected");
 	add_topic("vehicle_local_position", 100);
 	add_topic("vehicle_local_position_setpoint", 100);
@@ -120,6 +120,8 @@ void LoggedTopics::add_default_topics()
 	add_topic("vehicle_status_flags");
 	add_optional_topic("vtol_vehicle_status", 200);
 	add_topic("wind", 1000);
+	add_topic("uavcan_parameter_value");
+	add_topic("vehicle_command_ack");
 
 	// multi topics
 	add_optional_topic_multi("actuator_outputs", 100, 3);
@@ -180,7 +182,7 @@ void LoggedTopics::add_default_topics()
 	add_topic_multi("optical_flow", 1000, 1);
 	add_optional_topic_multi("sensor_accel", 1000, 4);
 	add_optional_topic_multi("sensor_baro", 1000, 4);
-	add_topic_multi("sensor_gps", 1000, 2);
+	add_topic_multi("sensor_gps", 0, 2);
 	add_topic_multi("sensor_gnss_relative", 1000, 1);
 	add_optional_topic("pps_capture", 1000);
 	add_optional_topic_multi("sensor_gyro", 1000, 4);
