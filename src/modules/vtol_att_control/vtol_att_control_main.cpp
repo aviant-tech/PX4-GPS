@@ -580,8 +580,8 @@ void VtolAttitudeControl::update_filtered_airspeed(const struct airspeed_validat
 	}
 
 	// We must update the filter parameters, since we don't know the sensor sample rate
-	float dt = static_cast<float>(sample.timestamp - _airspeed_filtered_last_timestamp);
-	_airspeed_filtered.setParameters(dt, _params.vt_aspd_tau);
+	float dt_s = static_cast<float>(sample.timestamp - _airspeed_filtered_last_timestamp) / 1e6f;
+	_airspeed_filtered.setParameters(dt_s, _params.vt_aspd_tau);
 	_airspeed_filtered.update(sample.calibrated_airspeed_m_s);
 	_airspeed_filtered_last_timestamp = sample.timestamp;
 	_airspeed_filtered_valid = true;
