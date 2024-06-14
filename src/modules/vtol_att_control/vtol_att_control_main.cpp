@@ -590,7 +590,7 @@ void VtolAttitudeControl::update_filtered_airspeed(const struct airspeed_validat
 
 float VtolAttitudeControl::get_filtered_airspeed()
 {
-	if (_airspeed_filtered_valid) {
+	if (!_airspeed_filtered_valid) {
 		return NAN;
 	}
 
