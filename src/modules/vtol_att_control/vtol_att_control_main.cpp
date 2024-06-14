@@ -549,6 +549,7 @@ VtolAttitudeControl::Run()
 
 		// Advertise/Publish vtol vehicle status
 		_vtol_vehicle_status.timestamp = hrt_absolute_time();
+		_vtol_vehicle_status.airspeed_filtered = get_filtered_airspeed();
 		_vtol_vehicle_status.mc_weights[0] = _vtol_type->_mc_roll_weight;
 		_vtol_vehicle_status.mc_weights[1] = _vtol_type->_mc_pitch_weight;
 		_vtol_vehicle_status.mc_weights[2] = _vtol_type->_mc_yaw_weight;
