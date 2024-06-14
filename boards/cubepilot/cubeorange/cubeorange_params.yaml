@@ -1,0 +1,12 @@
+parameters:
+    - group: CubeOrange
+      definitions:
+        CUBE_MAG_ENABLE:
+            description:
+                short: Enable CubeOrange internal magnetometer
+            type: enum
+            values:
+                0: Internal magnetometer disabled
+                1: Internal magnetometer enabled
+            default: 1
+            reboot_required: true
