@@ -43,6 +43,19 @@
 PARAM_DEFINE_INT32(CANNODE_NODE_ID, 120);
 
 /**
+ * UAVCAN dynamic node allocation
+ *
+ * If this is disabled, the CANNODE_NODE_ID will be used regardless of DNA.
+ *
+ * @boolean
+ * @value 0 Dynamic node allocation
+ * @value 1 Fixed Node ID
+ * @reboot_required true
+ * @group UAVCAN
+ */
+PARAM_DEFINE_INT32(CANNODE_DNA, 1);
+
+/**
  * UAVCAN CAN bus bitrate.
  *
  * @min 20000
