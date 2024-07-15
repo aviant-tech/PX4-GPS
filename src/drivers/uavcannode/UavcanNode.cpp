@@ -722,6 +722,10 @@ extern "C" int uavcannode_start(int argc, char *argv[])
 
 #endif
 
+	// Mark CANNODE_NODE_ID as "used", so it appears in parameter list.
+	// This allows it to be configured even when DNA is enabled.
+	(void)param_find("CANNODE_NODE_ID");
+
 	// CAN bitrate
 	int32_t bitrate = 0;
 
