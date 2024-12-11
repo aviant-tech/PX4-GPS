@@ -817,6 +817,15 @@ GPS::run()
 		param_get(handle, &f9p_uart2_baudrate);
 	}
 
+	handle = param_find("GPS_UBX_DGNSSTO");
+	int32_t ubx_dgnssto_tmp = 60;
+	
+	if (handle != PARAM_INVALID) {
+		param_get(handle, &ubx_dgnssto_tmp);
+	}
+
+	int8_t ubx_dgnssto = (ubx_dgnssto_tmp < 256 ? ubx_dgnssto_tmp : 60);  // Default value if invalid
+
 	int32_t gnssSystemsParam = static_cast<int32_t>(GPSHelper::GNSSSystemsMask::RECEIVER_DEFAULTS);
 
 	if (_instance == Instance::Main) {
@@ -877,7 +886,7 @@ GPS::run()
 		/* FALLTHROUGH */
 		case gps_driver_mode_t::UBX:
 			_helper = new GPSDriverUBX(_interface, &GPS::callback, this, &_report_gps_pos, _p_report_sat_info,
-						   gps_ubx_dynmodel, heading_offset, f9p_uart2_baudrate, ubx_mode);
+						   gps_ubx_dynmodel, heading_offset, f9p_uart2_baudrate, ubx_mode, ubx_dgnssto);
 			set_device_type(DRV_GPS_DEVTYPE_UBX);
 			break;
 #ifndef CONSTRAINED_FLASH

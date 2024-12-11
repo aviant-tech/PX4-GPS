@@ -143,6 +143,17 @@ PARAM_DEFINE_INT32(GPS_UBX_BAUD2, 230400);
 PARAM_DEFINE_INT32(GPS_UBX_CFG_INTF, 0);
 
 /**
+ * u-blox CFG-NAVSPG-CONSTR_DGNSSTO (DGNSS timeout)
+ *
+ * @min 0
+ * @max 255
+ *
+ * @reboot_required true
+ * @group GPS
+ */
+PARAM_DEFINE_INT32(GPS_UBX_DGNSSTO, 60);
+
+/**
  * Heading/Yaw offset for dual antenna GPS
  *
  * Heading offset angle for dual antenna GPS setups that support heading estimation.
