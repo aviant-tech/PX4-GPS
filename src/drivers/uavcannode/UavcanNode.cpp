@@ -72,6 +72,10 @@
 #include "Publishers/RawAirData.hpp"
 #endif // CONFIG_UAVCANNODE_RAW_AIR_DATA
 
+#if defined(CONFIG_UAVCANNODE_RAW_IMU)
+#include "Publishers/RawIMU.hpp"
+#endif // CONFIG_UAVCANNODE_RAW_IMU
+
 #if defined(CONFIG_UAVCANNODE_SAFETY_BUTTON)
 #include "Publishers/SafetyButton.hpp"
 #endif // CONFIG_UAVCANNODE_SAFETY_BUTTON
@@ -379,6 +383,10 @@ int UavcanNode::init(uavcan::NodeID node_id, UAVCAN_DRIVER::BusEvent &bus_events
 #if defined(CONFIG_UAVCANNODE_RAW_AIR_DATA)
 	_publisher_list.add(new RawAirData(this, _node));
 #endif // CONFIG_UAVCANNODE_RAW_AIR_DATA
+
+#if defined(CONFIG_UAVCANNODE_RAW_IMU)
+	_publisher_list.add(new RawIMU(this, _node));
+#endif // CONFIG_UAVCANNODE_RAW_IMU
 
 #if defined(CONFIG_UAVCANNODE_RTK_DATA)
 	_publisher_list.add(new RelPosHeadingPub(this, _node));
